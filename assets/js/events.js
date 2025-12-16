@@ -1,51 +1,63 @@
-// assets/js/events.js
-import { updateSlider, renderRoomSlider, qs, highlightSelectedRoom } from "./ui.js";
+// events.js – обработчики событий
 
-export function initEvents() {
-  // 1) click (обязательно)
-  document.addEventListener("click", (e) => {
-    const t = e.target;
+document.addEventListener('DOMContentLoaded', function() {
+    // Обработка формы бронирования кабинки
+    const roomForm = document.getElementById('room-booking-form');
+    if (roomForm) {
+        roomForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-    if (t && t.id === "prevRoomBtn") {
-      const stage = qs("#roomStage");
-      const cur = Number(stage?.dataset.index ?? 0);
-      updateSlider(cur - 1);
+            const formData = {
+                name: document.getElementById('room-client-name').value,
+                phone: document.getElementById('room-phone').value,
+                date: document.getElementById('room-date').value,
+                time: document.getElementById('room-time').value,
+                type: document.getElementById('room-type').value,
+                theme: document.getElementById('theme').value
+            };
+
+            // Здесь будет AJAX запрос (в data.js)
+            console.log('Room booking data:', formData);
+            alert(`Room booked for ${formData.name}! We'll call you at ${formData.phone}.`);
+
+            roomForm.reset();
+            document.getElementById('room-message').textContent = 'Booking submitted!';
+        });
     }
 
-    if (t && t.id === "nextRoomBtn") {
-      const stage = qs("#roomStage");
-      const cur = Number(stage?.dataset.index ?? 0);
-      updateSlider(cur + 1);
-    }
+    // Пример дополнительного обработчика
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('mouseover', function() {
+            this.style.backgroundColor = 'rgba(255,255,255,0.3)';
+        });
+        link.addEventListener('mouseout', function() {
+            this.style.backgroundColor = '';
+        });
+    });
+});
+// Добавьте в конец events.js:
 
-    if (t && t.classList?.contains("select-room-btn")) {
-      const roomId = t.dataset.roomId;
-      localStorage.setItem("selectedRoomId", roomId);
-      highlightSelectedRoom(roomId);
-      alert(`Room selected: #${roomId}`);
-    }
-  });
+// Обработчик keydown для поля телефона (форматирование)
+const phoneInputs = document.querySelectorAll('input[type="tel"]');
+phoneInputs.forEach(input => {
+    input.addEventListener('keydown', function(e) {
+        // Разрешаем только цифры, Backspace, Tab, стрелки
+        if (!/[0-9]|Backspace|Tab|ArrowLeft|ArrowRight/.test(e.key)) {
+            e.preventDefault();
+        }
+    });
 
-  // 2) mouseover (обязательно)
-  document.addEventListener("mouseover", (e) => {
-    const t = e.target;
-    if (t && t.classList?.contains("card")) {
-      t.style.boxShadow = "0 6px 18px rgba(0,0,0,0.12)";
-    }
-  });
-
-  // 3) mouseout (не обязательно, но полезно)
-  document.addEventListener("mouseout", (e) => {
-    const t = e.target;
-    if (t && t.classList?.contains("card")) {
-      t.style.boxShadow = "";
-    }
-  });
-
-  // Здесь позже добавим submit (форма бронирования)
-}
-
-export function initPage() {
-  renderRoomSlider("#roomsContainer");
-  initEvents();
-}
+    input.addEventListener('input', function() {
+        let value = this.value.replace(/\D/g, '');
+        if (value.length > 10) value = value.substring(0, 10);
+        if (value.length > 6) {
+            value = `+${value.substring(0,1)} (${value.substring(1,4)}) ${value.substring(4,7)}-${value.substring(7)}`;
+        } else if (value.length > 3) {
+            value = `+${value.substring(0,1)} (${value.substring(1,4)}) ${value.substring(4)}`;
+        } else if (value.length > 0) {
+            value = `+${value}`;
+        }
+        this.value = value;
+    });
+});

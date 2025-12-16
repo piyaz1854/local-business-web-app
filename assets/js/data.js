@@ -1,28 +1,74 @@
+// data.js – AJAX-запросы и работа с данными
 
+const API_BASE = "../includes/api/"; // Папка для PHP-обработчиков
 
-export const rooms = [
-  { id: 1, name: "Standard 1", capacity: 4, pricePerHour: 8000, photo: "" },
-  { id: 2, name: "Standard 2", capacity: 6, pricePerHour: 10000, photo: "" },
-  { id: 3, name: "VIP Gold", capacity: 10, pricePerHour: 18000, photo: "" },
-];
-
-export const menuItems = [
-  { id: 1, name: "Cola", category: "Drinks", price: 800, allergens: [] },
-  { id: 2, name: "Nachos", category: "Snacks", price: 2200, allergens: ["gluten"] },
-  { id: 3, name: "Cheese plate", category: "Snacks", price: 3500, allergens: ["lactose"] },
-];
-
-
-export function filterRoomsByCapacity(minCapacity) {
-  return rooms.filter(r => r.capacity >= minCapacity);
+// 1. GET-запрос для загрузки меню (Web Service v1)
+async function loadMenu() {
+  try {
+    const response = await fetch(API_BASE + "get_menu.php");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error loading menu:", error);
+    return [];
+  }
 }
 
-export function sortRoomsByPrice(list, dir = "asc") {
-  const k = dir === "desc" ? -1 : 1;
-  return [...list].sort((a, b) => (a.pricePerHour - b.pricePerHour) * k);
+// 2. POST-запрос для бронирования стола (Web Service v2)
+async function bookTable(bookingData) {
+  try {
+    const response = await fetch(API_BASE + "book_table.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bookingData),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("Error booking table:", error);
+    return { success: false, message: "Network error" };
+  }
 }
 
-export function calcBookingTotal(pricePerHour, hours) {
-  const parts = Array.from({ length: hours }, () => pricePerHour);
-  return parts.reduce((sum, x) => sum + x, 0);
+// 3. POST-запрос для бронирования кабинки
+async function bookRoom(roomData) {
+  try {
+    const response = await fetch(API_BASE + "book_room.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(roomData),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error booking room:", error);
+    return { success: false };
+  }
 }
+
+// 4. GET-запрос для загрузки забронированных столов (для админки)
+async function loadBookings() {
+  try {
+    const response = await fetch(API_BASE + "get_bookings.php");
+    return await response.json();
+  } catch (error) {
+    console.error("Error loading bookings:", error);
+    return [];
+  }
+}
+
+// Пример использования в других файлах:
+// В events.js можно заменить alert на реальный AJAX-вызов:
+/*
+document.getElementById('room-booking-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const formData = { ... };
+    const result = await bookRoom(formData);
+    if (result.success) {
+        alert('Room booked successfully!');
+    } else {
+        alert('Error: ' + result.message);
+    }
+});
+*/
+
+export { loadMenu, bookTable, bookRoom, loadBookings };
