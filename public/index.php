@@ -1,33 +1,51 @@
-<?php include '../includes/header.php'; ?>
+<?php include "../includes/header.php"; ?>
 
-<section>
-    <h2>Welcome to Karaoke Club!</h2>
-    <p>Book your private room or table, pre-order food, and enjoy singing with friends.</p>
-    
-    <div class="features">
-        <div class="feature">
-            <h3>🎤 Private Rooms</h3>
-            <p>6 rooms with different capacities.</p>
-        </div>
-        <div class="feature">
-            <h3>🍽️ Pre-order Menu</h3>
-            <p>Filter by allergens, category, and more.</p>
-        </div>
-        <div class="feature">
-            <h3>🛋️ Table Booking</h3>
-            <p>10 tables in the main hall.</p>
-        </div>
-    </div>
+<section class="hero">
+  <div class="hero-content">
+    <h1>KARAFLOW</h1>
+    <p class="tagline">Feel the music. Sing your soul.</p>
 
-    <!-- Слайдер кабинок -->
-    <div class="slider">
-        <h3>Our Rooms</h3>
-        <div id="room-slider">
-            <img src="https://via.placeholder.com/800x400/6a11cb/fff?text=Room+1" alt="Room 1">
-        </div>
-        <button id="prev">⬅️</button>
-        <button id="next">➡️</button>
+    <div class="hero-buttons">
+      <a href="booking_room.php" class="btn primary">🎤 Book a Room</a>
+      <a href="songs.php" class="btn secondary">🎶 Songs</a>
     </div>
+  </div>
 </section>
 
-<?php include '../includes/footer.php'; ?>
+<section class="why">
+  <h2>Why KARAFLOW?</h2>
+  <div class="features">
+    <div class="feature">🎧 Studio-quality sound</div>
+    <div class="feature">🛋️ Private rooms</div>
+    <div class="feature">🌌 Neon atmosphere</div>
+  </div>
+</section>
+
+<section class="rooms">
+  <h2>Choose Your Room</h2>
+
+  <div class="room-cards">
+    <div class="card" style="background-image:url('../assets/images/image6.png')">
+      <h3>Standard</h3>
+    </div>
+    <div class="card" style="background-image:url('../assets/images/image7.png')">
+      <h3>VIP</h3>
+    </div>
+    <div class="card" style="background-image:url('../assets/images/image8.png')">
+      <h3>Premium</h3>
+    </div>
+  </div>
+
+
+  <a href="booking_room.php" class="btn primary center">Reserve Now</a>
+</section>
+
+<section class="songs-preview">
+  <h2>Popular Songs</h2>
+  <div id="songs"></div>
+</section>
+
+<script type="module" src="../assets/js/events.js?v=2"></script>
+
+
+<?php include "../includes/footer.php"; ?>

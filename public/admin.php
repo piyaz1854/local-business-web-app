@@ -1,96 +1,74 @@
 <?php
-include '../includes/header.php';
-include '../includes/session.php';
+include "../includes/header.php";
+require "../includes/db.php";
 
-// Если не админ, показываем форму входа
-if (!isAdminLoggedIn()) {
-    ?>
-    <section class="admin-login">
-        <h2>Admin Login</h2>
-        <form id="admin-login-form">
-            <label for="admin-password">Password:</label>
-            <input type="password" id="admin-password" required>
-            <button type="submit">Login</button>
-            <p id="login-message"></p>
-        </form>
-    </section>
+// комнаты
+$rooms = $pdo->query(
+  "SELECT * FROM room_bookings ORDER BY created_at DESC"
+)->fetchAll();
 
-    <script>
-        document.getElementById('admin-login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const password = document.getElementById('admin-password').value;
-            
-            const response = await fetch('../includes/api/admin_login.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password: password })
-            });
-            
-            const result = await response.json();
-            if (result.success) {
-                location.reload();
-            } else {
-                document.getElementById('login-message').textContent = 'Wrong password!';
-            }
-        });
-    </script>
-    <?php
-    include '../includes/footer.php';
-    exit;
-}
+// столы
+$tables = $pdo->query(
+  "SELECT * FROM table_bookings ORDER BY created_at DESC"
+)->fetchAll();
 ?>
 
-<!-- Если админ вошел -->
-<h2>📊 Admin Panel</h2>
+<h2>🛋 Room Bookings</h2>
 
-<!-- Кнопка выхода -->
-<button id="logout-btn" style="margin-bottom: 2rem;">Logout</button>
+<table border="1" cellpadding="5">
+<tr>
+  <th>ID</th>
+  <th>Name</th>
+  <th>Phone</th>
+  <th>Date</th>
+  <th>Time</th>
+  <th>Duration</th>
+  <th>Room</th>
+  <th>Guests</th>
+</tr>
 
-<!-- Таблицы бронирований -->
-<div class="admin-tables">
-    <div class="table-section">
-        <h3>Room Bookings</h3>
-        <table id="room-bookings-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Room Type</th>
-                    <th>Theme</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Данные загружаются через JS -->
-            </tbody>
-        </table>
-    </div>
+<?php foreach ($rooms as $r): ?>
+<tr>
+  <td><?= $r["id"] ?></td>
+  <td><?= htmlspecialchars($r["client_name"]) ?></td>
+  <td><?= $r["phone"] ?></td>
+  <td><?= $r["booking_date"] ?></td>
+  <td><?= $r["start_time"] ?></td>
+  <td><?= $r["duration"] ?>h</td>
+  <td><?= $r["room_type"] ?></td>
+  <td><?= $r["guests"] ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
 
-    <div class="table-section">
-        <h3>Table Bookings</h3>
-        <table id="table-bookings-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Date</th>
-                    <th>Guests</th>
-                    <th>Table #</th>
-                    <th>Payment</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Данные загружаются через JS -->
-            </tbody>
-        </table>
-    </div>
-</div>
+<hr>
 
-<script src="../assets/js/admin.js"></script>
+<h2>🍽 Table Bookings</h2>
 
-<?php include '../includes/footer.php'; ?>
+<table border="1" cellpadding="5">
+<tr>
+  <th>ID</th>
+  <th>Name</th>
+  <th>Phone</th>
+  <th>Date</th>
+  <th>Time</th>
+  <th>Guests</th>
+  <th>Zone</th>
+  <th>Smoking</th>
+</tr>
+
+<?php foreach ($tables as $t): ?>
+<tr>
+  <td><?= $t["id"] ?></td>
+  <td><?= htmlspecialchars($t["client_name"]) ?></td>
+  <td><?= $t["phone"] ?></td>
+  <td><?= $t["booking_date"] ?></td>
+  <td><?= $t["booking_time"] ?></td>
+  <td><?= $t["guests"] ?></td>
+  <td><?= $t["table_zone"] ?></td>
+  <td><?= $t["smoking"] ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<?php include "../includes/footer.php"; ?>

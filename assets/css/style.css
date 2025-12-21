@@ -1,286 +1,209 @@
-/* Reset & Base */
+/* =========================
+   GLOBAL RESET
+========================= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* =========================
+   BODY & GLOBAL BACKGROUND
+========================= */
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
-  line-height: 1.6;
+  font-family: 'Montserrat', sans-serif;
+  color: #ffffff;
+
+  background:
+    linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75)),
+    url("../images/image1.png") center / cover no-repeat fixed;
+
+  min-height: 100vh;
 }
 
-/* Header */
-header {
-  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-  color: white;
-  padding: 1.5rem;
-  text-align: center;
-}
+/* =========================
+   HEADER
+========================= */
+.main-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 
-nav ul {
   display: flex;
-  justify-content: center;
-  list-style: none;
-  gap: 2rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 60px;
+  background: rgba(0,0,0,0.85);
+  border-bottom: 1px solid rgba(255,0,255,0.4);
+  backdrop-filter: blur(10px);
 }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  transition: background 0.3s;
-}
-
-nav a:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Main */
-main {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: #333;
-  color: white;
-  margin-top: 3rem;
-}
-
-/* Forms */
-form {
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin: 2rem auto;
-}
-
-label {
-  display: block;
-  margin: 0.5rem 0 0.2rem;
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 0.7rem;
-  margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  background: #2575fc;
-  color: white;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s;
-}
-
-button:hover {
-  background: #1a5fd8;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  nav ul {
-    flex-direction: column;
-    gap: 1rem;
-  }
-}
-
-/* Добавьте в конец файла /assets/css/style.css */
-
-/* Бронирование */
-.booking-section {
-  margin-bottom: 3rem;
-}
-
-/* Зал */
-.hall-layout {
-  background: #e9ecef;
-  padding: 2rem;
-  border-radius: 10px;
-  margin: 1rem 0;
-  text-align: center;
-}
-
-.stage {
-  background: #ff6b6b;
-  color: white;
-  padding: 1rem;
-  font-weight: bold;
-  border-radius: 10px;
-  margin-bottom: 2rem;
-}
-
-.tables-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.table {
-  background: #4cd964;
-  color: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: transform 0.2s;
-  font-weight: bold;
-}
-
-.table:hover {
-  transform: scale(1.05);
-}
-
-.table.booked {
-  background: #8e8e93;
-  cursor: not-allowed;
-}
-
-/* Меню */
-.filters {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 2rem;
-  display: grid;
-  grid-template-columns: auto 1fr auto 1fr auto 1fr auto auto;
-  gap: 1rem;
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  color: #ff00ff;
+  text-shadow: 0 0 15px #ff00ff;
+  display: flex;
   align-items: center;
 }
 
-.filters label {
-  margin: 0;
-  font-weight: bold;
+.logo span {
+  margin-left: 10px;
 }
 
-.filters select,
-.filters button {
-  padding: 0.5rem;
+.nav-links a {
+  margin-left: 30px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s;
 }
 
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
+.nav-links a:hover {
+  color: #ff00ff;
 }
 
-.menu-card {
-  background: white;
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: #ff00ff;
+  transition: 0.3s;
 }
 
-.menu-card:hover {
-  transform: translateY(-5px);
-}
-
-.menu-card h4 {
-  margin-bottom: 0.5rem;
-  color: #2575fc;
-}
-
-.menu-card button {
-  margin-top: 1rem;
+.nav-links a:hover::after {
   width: 100%;
 }
 
-.preorder-form {
-  background: #e3f2fd;
-  padding: 2rem;
-  border-radius: 10px;
-  margin-top: 3rem;
-}
+/* =========================
+   HERO SECTION
+========================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
 
-#preorder-list {
-  list-style: none;
-  margin: 1rem 0;
-}
-
-#preorder-list li {
-  background: white;
-  padding: 0.8rem;
-  margin-bottom: 0.5rem;
-  border-radius: 5px;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.remove-item {
-  background: #ff6b6b;
-  padding: 0.3rem 0.7rem;
-  font-size: 0.9rem;
+/* лёгкий overlay */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 0;
 }
 
-.remove-item:hover {
-  background: #ff4757;
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  padding: 40px;
 }
 
-/* В самый конец файла style.css добавьте: */
-@import url("admin.css");
-
-/* Темная тема */
-body.dark-theme {
-    background-color: #1a1a1a;
-    color: #f0f0f0;
+.hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 56px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px #ff00ff;
 }
 
-body.dark-theme header {
-    background: linear-gradient(135deg, #4a0d8a 0%, #1a3c7a 100%);
+.hero p {
+  font-size: 18px;
+  opacity: 0.9;
+  max-width: 700px;
+  margin: 0 auto 40px;
 }
 
-body.dark-theme nav a {
-    color: #ddd;
+/* =========================
+   BUTTONS
+========================= */
+.hero-buttons {
+  margin-top: 30px;
 }
 
-body.dark-theme form,
-body.dark-theme .filters,
-body.dark-theme .menu-card,
-body.dark-theme .table-section,
-body.dark-theme .admin-login {
-    background: #2d2d2d;
-    color: #f0f0f0;
-    border: 1px solid #444;
+.btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 14px 34px;
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: 0.3s;
 }
 
-body.dark-theme input,
-body.dark-theme select,
-body.dark-theme textarea {
-    background: #3d3d3d;
-    color: white;
-    border-color: #555;
+.btn.primary {
+  background: #ff00ff;
+  color: #000;
+  box-shadow: 0 0 20px #ff00ff;
 }
 
-body.dark-theme table th {
-    background: #333;
+.btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 35px #ff00ff;
 }
 
-body.dark-theme table tr:hover {
-    background: #444;
+.btn.secondary {
+  border: 2px solid #ff00ff;
+  color: #ff00ff;
 }
 
-body.dark-theme .hall-layout {
-    background: #333;
+.btn.secondary:hover {
+  background: #ff00ff;
+  color: #000;
+  box-shadow: 0 0 25px #ff00ff;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+section {
+  padding: 80px 60px;
+}
+
+/* =========================
+   CARDS
+========================= */
+.features,
+.room-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.card,
+.song-card {
+  background: rgba(0,0,0,0.65);
+  border: 1px solid rgba(255,0,255,0.4);
+  border-radius: 16px;
+  padding: 30px;
+  transition: 0.3s;
+}
+
+.card:hover,
+.song-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(255,0,255,0.4);
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  padding: 40px 20px;
+  text-align: center;
+  background: rgba(0,0,0,0.9);
+  border-top: 1px solid rgba(255,0,255,0.4);
+  font-size: 14px;
+  opacity: 0.8;
 }

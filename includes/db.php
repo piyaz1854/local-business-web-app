@@ -1,13 +1,17 @@
 <?php
-$host = 'localhost';
-$dbname = 'karaoke_db';
-$username = 'root'; // замените на вашего пользователя
-$password = 'root'; // замените на ваш пароль
+$host = "127.0.0.1";
+$user = "root";
+$pass = "";
+$db   = "karaflow_db";
+$port = 3306;
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
+
+if (!$conn) {
+    http_response_code(500);
+    echo json_encode([
+        "success" => false,
+        "message" => "Database connection failed"
+    ]);
+    exit;
 }
-?>
