@@ -1,16 +1,28 @@
 <?php include "../includes/header.php"; ?>
 
-<h2>📅 Booking</h2>
-<p>Please choose what you want to book:</p>
+<section class="booking-page">
 
-<div style="margin-top:20px;">
-  <a href="booking_room.php" style="display:inline-block; margin-right:20px;">
-    🎤 Book a Room
-  </a>
+  <h1 class="booking-title">📅 Booking</h1>
+  <p class="booking-subtitle">Choose what you want to book</p>
 
-  <a href="booking_table.php" style="display:inline-block;">
-    🍽 Book a Table
-  </a>
-</div>
+  <div class="booking-options">
+
+    <a href="booking_room.php" class="booking-card">
+      <div class="booking-icon">🎤</div>
+      <h3>Book a Room</h3>
+      <p>Private karaoke rooms with premium sound</p>
+      <span class="booking-btn">Reserve Room</span>
+    </a>
+
+    <a href="booking_table.php" class="booking-card">
+      <div class="booking-icon">🍽</div>
+      <h3>Book a Table</h3>
+      <p>Comfortable tables for drinks & chill</p>
+      <span class="booking-btn">Reserve Table</span>
+    </a>
+
+  </div>
+
+</section>
 
 <?php include "../includes/footer.php"; ?>

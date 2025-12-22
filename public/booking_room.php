@@ -1,43 +1,54 @@
-<?php include "../includes/header.php"; ?>
+<?php 
+include "../includes/header.php"; 
+$selectedRoom = $_GET['room_type'] ?? '';
+?>
 
-<h2>🎤 Book a Room</h2>
+<section class="booking-page">
 
-<form id="roomForm">
-  <input type="text" name="client_name" placeholder="Name" required>
-  <input type="text" name="phone" placeholder="Phone" required>
-  <input type="email" name="email" placeholder="Email">
+  <h2 class="booking-title">🎤 Book a Room</h2>
 
-  <input type="date" name="booking_date" required>
-  <input type="time" name="start_time" required>
+  <form id="roomForm" class="booking-form">
 
-  <select name="duration" required>
-    <option value="">Select duration</option>
-    <option value="1">1 hour</option>
-    <option value="2">2 hours</option>
-    <option value="3">3 hours</option>
-  </select>
+    <div class="form-grid">
+      <input type="text" name="client_name" placeholder="Your Name" required>
+      <input type="text" name="phone" placeholder="Phone" required>
+      <input type="email" name="email" placeholder="Email">
 
-  <select name="room_type" required>
-    <option value="Standard">Standard</option>
-    <option value="VIP">VIP</option>
-    <option value="Premium">Premium</option>
-  </select>
+      <input type="date" name="booking_date" required>
+      <input type="time" name="start_time" required>
 
-  <select name="theme">
-    <option value="Classic">Classic</option>
-    <option value="Neon">Neon</option>
-    <option value="Retro">Retro</option>
-    <option value="K-Pop">K-Pop</option>
-    <option value="Rock">Rock</option>
-  </select>
+      <select name="duration" required>
+        <option value="">Duration</option>
+        <option value="1">1 hour</option>
+        <option value="2">2 hours</option>
+        <option value="3">3 hours</option>
+      </select>
 
-  <input type="number" name="guests" placeholder="Guests" min="1" required>
-  <textarea name="comment" placeholder="Comment"></textarea>
+      <select name="room_type" required>
+        <option value="Standard" <?= $selectedRoom === 'Standard' ? 'selected' : '' ?>>Standard</option>
+        <option value="VIP" <?= $selectedRoom === 'VIP' ? 'selected' : '' ?>>VIP</option>
+        <option value="Premium" <?= $selectedRoom === 'Premium' ? 'selected' : '' ?>>Premium</option>
+      </select>
 
-  <button type="submit">Book</button>
-</form>
+      <select name="theme">
+        <option value="Classic">Classic</option>
+        <option value="Neon">Neon</option>
+        <option value="Retro">Retro</option>
+        <option value="K-Pop">K-Pop</option>
+        <option value="Rock">Rock</option>
+      </select>
 
-<p id="roomResult"></p>
+      <input type="number" name="guests" placeholder="Guests" min="1" required>
+    </div>
+
+    <textarea name="comment" placeholder="Comment (optional)"></textarea>
+
+    <button type="submit" class="btn primary full">Reserve Room</button>
+  </form>
+
+  <p id="roomResult" class="result-text"></p>
+
+</section>
 
 <script>
 document.getElementById("roomForm").addEventListener("submit", e => {
@@ -47,17 +58,13 @@ document.getElementById("roomForm").addEventListener("submit", e => {
     method: "POST",
     body: new FormData(e.target)
   })
-  .then(r => {
-    if (!r.ok) throw new Error("HTTP error");
-    return r.json();
-  })
+  .then(r => r.json())
   .then(d => {
     document.getElementById("roomResult").innerText = d.message;
     if (d.success) e.target.reset();
   })
-  .catch(err => {
+  .catch(() => {
     document.getElementById("roomResult").innerText = "Booking failed";
-    console.error(err);
   });
 });
 </script>
