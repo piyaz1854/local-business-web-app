@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once "db.php"; // ← подключение к БД
+require_once "db.php";
 
 // ==============================
 // POST — ADD REVIEW
@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         exit;
     }
+
     $stmt = $conn->prepare(
         "INSERT INTO reviews (name, rating, comment) VALUES (?, ?, ?)"
     );
@@ -45,27 +46,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // ==============================
-// GET — LOAD REVIEWS
+// GET — LOAD LAST 5 REVIEWS
 // ==============================
 $result = $conn->query(
-    "SELECT name, rating, comment, created_at 
-     FROM reviews 
-     ORDER BY created_at DESC"
+    "SELECT name, rating, comment, created_at
+     FROM reviews
+     ORDER BY created_at DESC
+     LIMIT 5"
 );
 
 $html = "";
 
 while ($row = $result->fetch_assoc()) {
-    $stars = str_repeat("⭐", $row['rating']);
+
+    $name = htmlspecialchars($row['name']);
+    $comment = nl2br(htmlspecialchars($row['comment']));
+    $date = htmlspecialchars($row['created_at']);
+    $stars = str_repeat("⭐", (int)$row['rating']);
 
     $html .= "
     <div class='review-card'>
         <div class='review-header'>
-            <strong>{$row['name']}</strong>
+            <strong>{$name}</strong>
             <span class='review-stars'>{$stars}</span>
         </div>
-        <p>{$row['comment']}</p>
-        <small>{$row['created_at']}</small>
+        <p>{$comment}</p>
+        <small>{$date}</small>
     </div>
     ";
 }

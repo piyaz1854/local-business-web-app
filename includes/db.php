@@ -1,7 +1,7 @@
 <?php
 $host = "127.0.0.1";
 $user = "root";
-$pass = "";
+$pass = "Abltasher1700";
 $db   = "karaflow_db";
 $port = 3306;
 
@@ -11,7 +11,7 @@ if (!$conn) {
     http_response_code(500);
     echo json_encode([
         "success" => false,
-        "message" => "Database connection failed"
+        "message" => "Database connection failed: " . mysqli_connect_error()
     ]);
     exit;
 }

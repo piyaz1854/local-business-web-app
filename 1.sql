@@ -31,5 +31,13 @@ CREATE TABLE table_bookings (
 );
 SELECT * FROM room_bookings;
 SELECT * FROM table_bookings;
-SELECT * FROM karaflow_db.room_bookings;
 
+CREATE TABLE reviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+SELECT * FROM reviews;
