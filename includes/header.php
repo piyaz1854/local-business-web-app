@@ -28,7 +28,12 @@ session_start();
     <a href="booking.php">Booking</a>
     <a href="reviews.php">Reviews</a>
     <a href="about.php">About</a>
-  </nav>
+    <?php if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in']): ?>
+        <a href="../admin/index.php" style="color: #ff00ff;">Admin</a>
+    <?php else: ?>
+        <a href="../admin/login.php">Admin</a>
+    <?php endif; ?>
+</nav>
 </header>
 
 <main>
