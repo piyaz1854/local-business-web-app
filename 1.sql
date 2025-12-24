@@ -13,7 +13,6 @@ CREATE TABLE room_bookings (
   duration INT NOT NULL,
   room_type ENUM('Standard','VIP','Premium') NOT NULL,
   guests INT NOT NULL,
-  theme ENUM('Classic','Neon','Retro','K-Pop','Rock') DEFAULT 'Classic',
   comment TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -24,7 +23,7 @@ CREATE TABLE table_bookings (
   booking_date DATE NOT NULL,
   booking_time TIME NOT NULL,
   guests INT NOT NULL,
-  table_zone ENUM('Main Hall','Near Stage','VIP Zone','Balcony') NOT NULL,
+  table_zone ENUM('Main Hall','Near Stage','Balcony') NOT NULL,
   smoking ENUM('Yes','No') DEFAULT 'No',
   comment TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

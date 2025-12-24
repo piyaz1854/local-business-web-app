@@ -6,7 +6,7 @@
     <p class="tagline">Feel the music. Sing your soul.</p>
 
     <div class="hero-buttons">
-      <a href="booking_room.php" class="btn primary">🎤 Book a Room</a>
+      <a href="booking.php" class="btn primary">🎤 Book a Room or Table</a>
       <a href="songs.php" class="btn secondary">🎶 Songs</a>
     </div>
   </div>
@@ -38,41 +38,55 @@
     </div>
   </div>
 </section>
-
-
-<section class="rooms">
+<section class="spaces">
   <h2>Choose Your Room</h2>
-   
-  <div class="room-cards">
 
-    <a href="booking_room.php?room_type=Standard"
-       class="room-card standard"
-       style="background-image:url('../assets/images/image6.png')">
+  <div class="space-grid">
+    <div class="room-card standard" style="background-image:url('../assets/images/image6.png')">
       <div class="room-overlay"></div>
-      <h3>Standard</h3>
+      <h3>Standard Room</h3>
       <p>Comfort • Best Value</p>
-    </a>
+    </div>
 
-    <a href="booking_room.php?room_type=VIP"
-       class="room-card vip"
-       style="background-image:url('../assets/images/image7.png')">
+    <div class="room-card vip" style="background-image:url('../assets/images/image7.png')">
       <div class="room-overlay"></div>
-      <h3>VIP</h3>
+      <h3>VIP Room</h3>
       <p>Private • Premium Sound</p>
-    </a>
+    </div>
 
-    <a href="booking_room.php?room_type=Premium"
-       class="room-card premium"
-       style="background-image:url('../assets/images/image8.png')">
+    <div class="room-card premium" style="background-image:url('../assets/images/image8.png')">
       <div class="room-overlay"></div>
-      <h3>Premium</h3>
+      <h3>Premium Room</h3>
       <p>Luxury • Ultimate Experience</p>
-    </a>
+    </div>
+  </div>
+</section>
+<section class="spaces">
+  <h2>Choose Your Table</h2>
 
+  <div class="space-grid">
+    <div class="room-card table" style="background-image:url('../assets/images/image15.png')">
+      <div class="room-overlay"></div>
+      <h3>Main Hall</h3>
+      <p>Central • Social Atmosphere</p>
+    </div>
+
+    <div class="room-card table" style="background-image:url('../assets/images/image16.png')">
+      <div class="room-overlay"></div>
+      <h3>Near Stage</h3>
+      <p>Close to Performance</p>
+    </div>
+
+    <div class="room-card table" style="background-image:url('../assets/images/image17.png')">
+      <div class="room-overlay"></div>
+      <h3>Balcony</h3>
+      <p>Top View • Chill Zone</p>
+    </div>
   </div>
 
-  <a href="booking_room.php" class="btn primary center">Reserve Now</a>
+  <a href="booking.php" class="btn primary center">Reserve Now</a>
 </section>
+
 
 <section class="songs-preview">
   <h2>Popular Songs</h2>
