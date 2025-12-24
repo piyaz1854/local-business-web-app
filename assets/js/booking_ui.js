@@ -85,7 +85,7 @@ function renderZones() {
         <h3>${zone}</h3>
         <p class="room-type">${data.tables.length} tables</p>
         <p class="room-capacity">
-          Capacity: ${Math.min(...capacities)}–${Math.max(...capacities)} people
+          Capacity: ${Math.min(...capacities)}-${Math.max(...capacities)} people
         </p>
         <button class="neon-btn room-btn select-zone">Select</button>
         <div class="tables-inside"></div>

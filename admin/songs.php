@@ -26,33 +26,33 @@ $songs = mysqli_query($conn, "SELECT * FROM songs $where ORDER BY id DESC");
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Управление песнями</title>
+    <title>Manage Songs</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">🎵 Управление песнями</h1>
+            <h1 class="admin-title">🎵 Manage Songs</h1>
             
             <div class="admin-actions">
                 <form method="GET" class="search-box">
                     <span class="search-icon">🔍</span>
-                    <input type="text" name="search" class="search-input" placeholder="Поиск песен..." 
+                    <input type="text" name="search" class="search-input" placeholder="Search songs..." 
                            value="<?= htmlspecialchars($search) ?>">
                 </form>
                 
-                <a href="add_song.php" class="btn-admin btn-primary">➕ Добавить песню</a>
-                <a href="index.php" class="btn-admin btn-secondary">← Назад в админку</a>
+                <a href="add_song.php" class="btn-admin btn-primary">➕ Add Song</a>
+                <a href="index.php" class="btn-admin btn-secondary">← Back to Admin Dashboard</a>
             </div>
         </div>
         
         <?php if (isset($_GET['deleted'])): ?>
-            <div class="message success">✅ Песня успешно удалена!</div>
+            <div class="message success">✅ Song deleted successfully!</div>
         <?php endif; ?>
         
         <div class="table-responsive">
@@ -60,13 +60,13 @@ $songs = mysqli_query($conn, "SELECT * FROM songs $where ORDER BY id DESC");
                 <thead>
                     <tr>
                         <th width="50"><span class="table-header-icon">#</span> ID</th>
-                        <th>Название</th>
-                        <th>Исполнитель</th>
-                        <th>Жанр</th>
-                        <th>Год</th>
-                        <th>Язык</th>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Genre</th>
+                        <th>Year</th>
+                        <th>Language</th>
                         <th class="youtube-cell">YouTube ID</th>
-                        <th width="150">Действия</th>
+                        <th width="150">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,12 +91,12 @@ $songs = mysqli_query($conn, "SELECT * FROM songs $where ORDER BY id DESC");
                                 </td>
                                 <td class="actions-cell">
                                     <a href="edit_song.php?id=<?= $song['id'] ?>" 
-                                    class="btn-action btn-view" title="Редактировать песню">✏️</a>
+                                    class="btn-action btn-view" title="Edit song">✏️</a>
                                     
                                     <a href="songs.php?delete=<?= $song['id'] ?>" 
                                     class="btn-action btn-delete"
-                                    onclick="return confirm('Удалить песню «<?= addslashes($song['title']) ?>»?')"
-                                    title="Удалить песню">
+                                    onclick="return confirm('Delete the song “<?= addslashes($song['title']) ?>”?')"
+                                    title="Delete song">
                                         🗑️
                                     </a>
                                     
@@ -104,12 +104,12 @@ $songs = mysqli_query($conn, "SELECT * FROM songs $where ORDER BY id DESC");
                                         <a href="../public/karaoke.php?song_id=<?= $song['id'] ?>" 
                                         target="_blank" 
                                         class="btn-action btn-test"
-                                        title="Тестировать караоке">
-                                            ▶️ Тест
+                                        title="Test karaoke">
+                                            ▶️ Test
                                         </a>
                                     <?php else: ?>
-                                        <span class="btn-action btn-disabled" title="Нет YouTube ID">
-                                            ⏸️ Нет ID
+                                        <span class="btn-action btn-disabled" title="No YouTube ID">
+                                            ⏸️ No ID
                                         </span>
                                     <?php endif; ?>
                                 </td>
@@ -119,9 +119,9 @@ $songs = mysqli_query($conn, "SELECT * FROM songs $where ORDER BY id DESC");
                         <tr>
                             <td colspan="8" class="empty-message">
                                 <?php if ($search): ?>
-                                    🎵 Песни по запросу "<?= htmlspecialchars($search) ?>" не найдены
+                                    🎵 No songs found for "<?= htmlspecialchars($search) ?>"
                                 <?php else: ?>
-                                    🎵 Песен пока нет. Добавьте первую!
+                                    🎵 No songs yet. Add the first one!
                                 <?php endif; ?>
                             </td>
                         </tr>

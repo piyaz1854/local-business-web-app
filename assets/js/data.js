@@ -138,22 +138,22 @@ export const admin = {
   confirmDelete: (message) => confirm(message),
 
   confirmSongDelete: (title) => {
-    return admin.confirmDelete(`Удалить песню «${title}»?`);
+    return admin.confirmDelete(`Delete the song “${title}”?`);
   },
 
   confirmReviewDelete: (name, rating) => {
-    return admin.confirmDelete(`Удалить отзыв от ${name}?\nРейтинг: ${rating}/5`);
+    return admin.confirmDelete(`Delete the review from ${name}?\nRating: ${rating}/5`);
   },
 
   confirmRoomBookingDelete: (name, date, time) => {
     return admin.confirmDelete(
-      `Удалить бронирование комнаты от ${name}?\nДата: ${date}\nВремя: ${time}`
+      `Delete the room booking from ${name}?\nDate: ${date}\nTime: ${time}`
     );
   },
 
   confirmTableBookingDelete: (name, date, time) => {
     return admin.confirmDelete(
-      `Удалить бронирование стола от ${name}?\nДата: ${date}\nВремя: ${time}`
+      `Delete the table booking from ${name}?\nDate: ${date}\nTime: ${time}`
     );
   }
 };

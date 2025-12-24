@@ -167,7 +167,7 @@ function initAdminPage() {
       const value = this.value.trim();
       if (value && !/^\d{1,2}:\d{2}$/.test(value)) {
         notifications.show(
-          "Введите длительность в формате ММ:СС (например: 03:45)",
+          "Enter duration in MM:SS format (e.g., 03:45)",
           "warning"
         );
         this.focus();

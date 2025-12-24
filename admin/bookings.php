@@ -26,27 +26,27 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Бронирования - Админка</title>
+    <title>Bookings - Admin Panel</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1 class="admin-title">📋 Управление бронированиями</h1>
-            <a href="index.php" class="back-link">← Вернуться в админ-панель</a>
+            <h1 class="admin-title">📋 Manage Bookings</h1>
+            <a href="index.php" class="back-link">← Back to Admin Dashboard</a>
         </div>
         
         <?php if (isset($_GET['deleted'])): ?>
-            <div class="message success">✅ Бронирование успешно удалено!</div>
+            <div class="message success">✅ Booking deleted successfully!</div>
         <?php endif; ?>
         
         <h2 class="section-title">
-            <span>🎤</span> Бронирования комнат
+            <span>🎤</span> Room Bookings
             <span class="count-badge"><?= mysqli_num_rows($rooms) ?></span>
         </h2>
         
@@ -55,11 +55,11 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
                 <thead>
                     <tr>
                         <th width="60"><span class="table-header-icon">#</span> ID</th>
-                        <th><span class="table-header-icon">👤</span> Клиент</th>
-                        <th><span class="table-header-icon">📞</span> Контакты</th>
-                        <th><span class="table-header-icon">📅</span> Дата / Время</th>
-                        <th><span class="table-header-icon">🎤</span> Детали комнаты</th>
-                        <th width="100"><span class="table-header-icon">⚡</span> Действия</th>
+                        <th><span class="table-header-icon">👤</span> Customer</th>
+                        <th><span class="table-header-icon">📞</span> Contact</th>
+                        <th><span class="table-header-icon">📅</span> Date / Time</th>
+                        <th><span class="table-header-icon">🎤</span> Room Details</th>
+                        <th width="100"><span class="table-header-icon">⚡</span> Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,7 +70,7 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
                             <td><strong>#<?= $room['id'] ?></strong></td>
                             <td>
                                 <div class="client-name"><?= htmlspecialchars($room['client_name']) ?></div>
-                                <div class="room-badge">🎤 Комната</div>
+                                <div class="room-badge">🎤 Room</div>
                             </td>
                             <td>
                                 <div class="client-phone">📱 <?= htmlspecialchars($room['phone']) ?></div>
@@ -80,15 +80,15 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
                             </td>
                             <td>
                                 <div class="booking-date"><?= $room['booking_date'] ?></div>
-                                <div class="booking-time">🕐 <?= $room['start_time'] ?> (<?= $room['duration'] ?>ч)</div>
+                                <div class="booking-time">🕐 <?= $room['start_time'] ?> (<?= $room['duration'] ?>h)</div>
                                 <div class="cell-info">
-                                    Создано: <?= date('d.m H:i', strtotime($room['created_at'])) ?>
+                                    Created: <?= date('d.m H:i', strtotime($room['created_at'])) ?>
                                 </div>
                             </td>
                             <td>
                                 <div class="booking-type"><?= htmlspecialchars($room['room_type']) ?></div>
                                 <div class="cell-info">
-                                    👥 <?= $room['guests'] ?> гостей<br>
+                                    👥 <?= $room['guests'] ?> guests<br>
                                     <?php if ($room['theme'] && $room['theme'] !== 'Classic'): ?>
                                         🎨 <?= $room['theme'] ?><br>
                                     <?php endif; ?>
@@ -101,9 +101,9 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
                             <td>
                                 <a href="bookings.php?delete_room=<?= $room['id'] ?>" 
                                    class="delete-review-btn"
-                                   onclick="return confirm('Удалить бронирование комнаты от <?= addslashes($room['client_name']) ?>?\nДата: <?= $room['booking_date'] ?>\nВремя: <?= $room['start_time'] ?>')"
-                                   title="Удалить бронирование">
-                                    🗑️ Удалить
+                                   onclick="return confirm('Delete room booking from <?= addslashes($room['client_name']) ?>?\nDate: <?= $room['booking_date'] ?>\nTime: <?= $room['start_time'] ?>')"
+                                   title="Delete booking">
+                                    🗑️ Delete
                                 </a>
                             </td>
                         </tr>
@@ -112,15 +112,15 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
             </table>
         <?php else: ?>
             <div class="empty-message">
-                🎤 Бронирований комнат пока нет
+                🎤 No room bookings yet
                 <div style="margin-top: 15px; font-size: 14px; color: #666;">
-                    Клиенты еще не бронировали комнаты для караоке
+                    Customers have not booked karaoke rooms yet
                 </div>
             </div>
         <?php endif; ?>
         
         <h2 class="section-title">
-            <span>🍽️</span> Бронирования столов
+            <span>🍽️</span> Table Bookings
             <span class="count-badge"><?= mysqli_num_rows($tables) ?></span>
         </h2>
         
@@ -129,11 +129,11 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
                 <thead>
                     <tr>
                         <th width="60"><span class="table-header-icon">#</span> ID</th>
-                        <th><span class="table-header-icon">👤</span> Клиент</th>
-                        <th><span class="table-header-icon">📞</span> Контакты</th>
-                        <th><span class="table-header-icon">📅</span> Дата / Время</th>
-                        <th><span class="table-header-icon">🍽️</span> Детали стола</th>
-                        <th width="100"><span class="table-header-icon">⚡</span> Действия</th>
+                        <th><span class="table-header-icon">👤</span> Customer</th>
+                        <th><span class="table-header-icon">📞</span> Contact</th>
+                        <th><span class="table-header-icon">📅</span> Date / Time</th>
+                        <th><span class="table-header-icon">🍽️</span> Table Details</th>
+                        <th width="100"><span class="table-header-icon">⚡</span> Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -144,12 +144,12 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
                             <td><strong>#<?= $table['id'] ?></strong></td>
                             <td>
                                 <div class="client-name"><?= htmlspecialchars($table['client_name']) ?></div>
-                                <div class="table-badge">🍽️ Стол</div>
+                                <div class="table-badge">🍽️ Table</div>
                             </td>
                             <td>
                                 <div class="client-phone">📱 <?= htmlspecialchars($table['phone']) ?></div>
                                 <div class="cell-info">
-                                    Создано: <?= date('d.m H:i', strtotime($table['created_at'])) ?>
+                                    Created: <?= date('d.m H:i', strtotime($table['created_at'])) ?>
                                 </div>
                             </td>
                             <td>
@@ -159,8 +159,8 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
                             <td>
                                 <div class="booking-type"><?= htmlspecialchars($table['table_zone']) ?></div>
                                 <div class="cell-info">
-                                    👥 <?= $table['guests'] ?> гостей<br>
-                                    🚭 <?= $table['smoking'] === 'Yes' ? 'Курящая зона' : 'Не курящая' ?><br>
+                                    👥 <?= $table['guests'] ?> guests<br>
+                                    🚭 <?= $table['smoking'] === 'Yes' ? 'Smoking area' : 'Non-smoking' ?><br>
                                     <?php if (!empty($table['comment'])): ?>
                                         💬 <?= substr(htmlspecialchars($table['comment']), 0, 30) ?>
                                         <?= strlen($table['comment']) > 30 ? '...' : '' ?>
@@ -170,9 +170,9 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
                             <td>
                                 <a href="bookings.php?delete_table=<?= $table['id'] ?>" 
                                    class="delete-review-btn"
-                                   onclick="return confirm('Удалить бронирование стола от <?= addslashes($table['client_name']) ?>?\nДата: <?= $table['booking_date'] ?>\nВремя: <?= $table['booking_time'] ?>')"
-                                   title="Удалить бронирование">
-                                    🗑️ Удалить
+                                   onclick="return confirm('Delete table booking from <?= addslashes($table['client_name']) ?>?\nDate: <?= $table['booking_date'] ?>\nTime: <?= $table['booking_time'] ?>')"
+                                   title="Delete booking">
+                                    🗑️ Delete
                                 </a>
                             </td>
                         </tr>
@@ -181,17 +181,17 @@ $tables = mysqli_query($conn, "SELECT * FROM table_bookings ORDER BY booking_dat
             </table>
         <?php else: ?>
             <div class="empty-message">
-                🍽️ Бронирований столов пока нет
+                🍽️ No table bookings yet
                 <div style="margin-top: 15px; font-size: 14px; color: #666;">
-                    Клиенты еще не бронировали столы в ресторане
+                    Customers have not booked restaurant tables yet
                 </div>
             </div>
         <?php endif; ?>
         
         <div class="footer-nav">
             <div style="margin-top: 20px; color: #666; font-size: 12px;">
-                Всего бронирований: <strong><?= mysqli_num_rows($rooms) + mysqli_num_rows($tables) ?></strong>
-                (Комнат: <?= mysqli_num_rows($rooms) ?>, Столов: <?= mysqli_num_rows($tables) ?>)
+                Total bookings: <strong><?= mysqli_num_rows($rooms) + mysqli_num_rows($tables) ?></strong>
+                (Rooms: <?= mysqli_num_rows($rooms) ?>, Tables: <?= mysqli_num_rows($tables) ?>)
             </div>
         </div>
     </div>

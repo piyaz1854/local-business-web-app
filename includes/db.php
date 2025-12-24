@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $user = "root";
-$pass = "Abltasher1700";   #Убери пароль или замени на свой, это мой индивидуальный пароль
+$pass = "Abltasher1700";   #use your own password
 $db   = "karaflow_db";
 $port = 3306;
 

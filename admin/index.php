@@ -9,11 +9,11 @@ include "../includes/db.php";
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Админ-панель KARAFLOW</title>
+    <title>KARAFLOW Admin Panel</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
@@ -21,10 +21,10 @@ include "../includes/db.php";
     <div class="admin-container">
         <div class="admin-header">
             <div>
-                <h1 class="admin-title">Админ-панель KARAFLOW</h1>
+                <h1 class="admin-title">KARAFLOW Admin Panel</h1>
                 <div class="admin-user">
-                    Вы вошли как: <strong><?= htmlspecialchars($_SESSION['admin_username'] ?? 'admin') ?></strong>
-                    <a href="logout.php" class="logout-btn">Выйти</a>
+                    Logged in as: <strong><?= htmlspecialchars($_SESSION['admin_username'] ?? 'admin') ?></strong>
+                    <a href="logout.php" class="logout-btn">Log out</a>
                 </div>
             </div>
         </div>
@@ -32,26 +32,26 @@ include "../includes/db.php";
         <div class="admin-menu">
             <a href="songs.php" class="menu-card">
                 <span class="menu-icon">🎵</span>
-                <div class="menu-title">Управление песнями</div>
-                <div class="menu-desc">Добавляйте, редактируйте и удаляйте песни в каталоге</div>
+                <div class="menu-title">Manage Songs</div>
+                <div class="menu-desc">Add, edit, and delete songs in the catalog</div>
             </a>
             
             <a href="add_song.php" class="menu-card">
                 <span class="menu-icon">➕</span>
-                <div class="menu-title">Добавить песню</div>
-                <div class="menu-desc">Быстро добавить новую песню в каталог</div>
+                <div class="menu-title">Add Song</div>
+                <div class="menu-desc">Quickly add a new song to the catalog</div>
             </a>
             
             <a href="bookings.php" class="menu-card">
                 <span class="menu-icon">📋</span>
-                <div class="menu-title">Бронирования</div>
-                <div class="menu-desc">Просмотр всех бронирований комнат и столов</div>
+                <div class="menu-title">Bookings</div>
+                <div class="menu-desc">View all room and table bookings</div>
             </a>
             
             <a href="reviews.php" class="menu-card">
                 <span class="menu-icon">⭐</span>
-                <div class="menu-title">Отзывы</div>
-                <div class="menu-desc">Управление отзывами пользователей</div>
+                <div class="menu-title">Reviews</div>
+                <div class="menu-desc">Manage user reviews</div>
             </a>
         </div>
     </div>

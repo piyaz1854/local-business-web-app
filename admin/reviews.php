@@ -42,11 +42,11 @@ for ($i = 1; $i <= 5; $i++) {
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Отзывы - Админка</title>
+    <title>Reviews - Admin Panel</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
@@ -55,35 +55,35 @@ for ($i = 1; $i <= 5; $i++) {
         <div class="admin-header">
             <h1 class="admin-title">
                 <?php if ($current_rating): ?>
-                    ⭐ Отзывы с рейтингом <?= $current_rating ?> звезд
+                    ⭐ Reviews with <?= $current_rating ?>-star rating
                 <?php else: ?>
-                    ⭐ Все отзывы
+                    ⭐ All Reviews
                 <?php endif; ?>
             </h1>
-            <a href="index.php" class="back-link">← Назад в админку</a>
+            <a href="index.php" class="back-link">← Back to Admin Dashboard</a>
         </div>
         
         <?php if (isset($_GET['deleted'])): ?>
-            <div class="message success">✅ Отзыв успешно удален!</div>
+            <div class="message success">✅ Review deleted successfully!</div>
         <?php endif; ?>
         
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">⭐</div>
                 <div class="stat-number"><?= $total_reviews ?></div>
-                <div class="stat-label">Всего отзывов</div>
+                <div class="stat-label">Total Reviews</div>
             </div>
             
             <div class="stat-card">
                 <div class="stat-icon">🏆</div>
                 <div class="stat-number"><?= $avg_rating ?>/5</div>
-                <div class="stat-label">Средний рейтинг</div>
+                <div class="stat-label">Average Rating</div>
             </div>
         </div>
         
         <div class="filters">
             <a href="reviews.php" class="filter-btn <?= !isset($_GET['rating']) ? 'active' : '' ?>">
-                Все (<?= array_sum($rating_counts) ?>)
+                All (<?= array_sum($rating_counts) ?>)
             </a>
             <a href="reviews.php?rating=5" class="filter-btn <?= isset($_GET['rating']) && $_GET['rating'] == 5 ? 'active' : '' ?>">
                 ⭐⭐⭐⭐⭐ (<?= $rating_counts[5] ?>)
@@ -113,7 +113,7 @@ for ($i = 1; $i <= 5; $i++) {
                     <div class="review-card">
                         <div class="review-header">
                             <div class="reviewer-info">
-                                <div class="reviewer-avatar" title="Аватар пользователя">
+                                <div class="reviewer-avatar" title="User avatar">
                                     <?= strtoupper($first_letter) ?>
                                 </div>
                                 <div>
@@ -137,8 +137,8 @@ for ($i = 1; $i <= 5; $i++) {
                             <span>📅 <?= $date ?></span>
                             <a href="reviews.php?delete=<?= $review['id'] ?><?= $current_rating ? '&rating=' . $current_rating : '' ?>" 
                                class="delete-review-btn"
-                               onclick="return confirm('Удалить отзыв от <?= addslashes($review['name']) ?>?\nРейтинг: <?= $review['rating'] ?>/5')">
-                                🗑️ Удалить
+                               onclick="return confirm('Delete review from <?= addslashes($review['name']) ?>?\nRating: <?= $review['rating'] ?>/5')">
+                                🗑️ Delete
                             </a>
                         </div>
                     </div>
@@ -146,15 +146,15 @@ for ($i = 1; $i <= 5; $i++) {
             <?php else: ?>
                 <div class="empty-message">
                     <?php if ($current_rating): ?>
-                        ⭐ Отзывов с рейтингом <?= $current_rating ?> звезд пока нет
+                        ⭐ No reviews with <?= $current_rating ?>-star rating yet
                     <?php else: ?>
-                        ⭐ Отзывов пока нет
+                        ⭐ No reviews yet
                     <?php endif; ?>
                     <div style="margin-top: 15px; font-size: 14px; color: #666;">
                         <?php if ($current_rating): ?>
-                            Пользователи еще не оставляли отзывы с таким рейтингом
+                            Users have not left reviews with this rating yet
                         <?php else: ?>
-                            Пользователи еще не оставляли отзывы
+                            Users have not left any reviews yet
                         <?php endif; ?>
                     </div>
                 </div>

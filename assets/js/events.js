@@ -252,7 +252,7 @@ export const adminHandlers = {
 
       link.addEventListener("click", function (e) {
         if (
-          !admin.confirmDelete("Вы уверены, что хотите удалить эту запись?")
+          !admin.confirmDelete("Are you sure you want to delete this record?")
         ) {
           e.preventDefault();
         }
@@ -267,26 +267,26 @@ export const adminHandlers = {
       const panel = document.createElement("div");
       panel.className = "stats-panel";
       panel.innerHTML = `
-        <h3>📊 Быстрая статистика</h3>
+        <h3>📊 Quick Stats</h3>
         <div class="stat-item">
-          <span>Всего песен:</span>
+          <span>Total songs:</span>
           <span class="stat-value" id="totalSongs">${
             document.querySelectorAll(".songs-table tbody tr").length
           }</span>
         </div>
         <div class="stat-item">
-          <span>Всего отзывов:</span>
+          <span>Total reviews:</span>
           <span class="stat-value" id="totalReviews">${
             document.querySelectorAll(".review-card").length
           }</span>
         </div>
         <div class="stat-item">
-          <span>Сегодня:</span>
+          <span>Today:</span>
           <span class="stat-value" id="todayDate">${new Date().toLocaleDateString(
-            "ru-RU"
+            "en-US"
           )}</span>
         </div>
-        <button class="close-stats">× Закрыть</button>
+        <button class="close-stats">× Close</button>
       `;
 
       document.body.appendChild(panel);

@@ -5,7 +5,6 @@ require_once "db.php";
 $response = ['success' => false, 'songs' => []];
 
 try {
-    // Если есть поисковый запрос
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = mysqli_real_escape_string($conn, $_GET['search']);
         $sql = "SELECT * FROM songs 
@@ -13,9 +12,7 @@ try {
                 OR artist LIKE '%$search%'
                 OR genre LIKE '%$search%'
                 ORDER BY title";
-        // УБЕРИТЕ LIMIT 20
     } 
-    // Иначе все песни
     else {
         $sql = "SELECT * FROM songs ORDER BY title";
     }
@@ -40,8 +37,8 @@ try {
         $response['success'] = true;
         $response['songs'] = $songs;
         $response['count'] = count($songs);
-        $response['query'] = $sql; // Для отладки
-        $response['total_in_db'] = mysqli_num_rows($result); // Для отладки
+        $response['query'] = $sql;
+        $response['total_in_db'] = mysqli_num_rows($result);
     } else {
         $response['error'] = mysqli_error($conn);
     }

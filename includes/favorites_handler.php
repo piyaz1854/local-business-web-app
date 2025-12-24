@@ -2,7 +2,6 @@
 header('Content-Type: application/json');
 require_once "db.php";
 
-// Для простоты используем фиксированный user_id = 1
 $user_id = 1;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -15,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if ($action === 'add') {
-        // Проверяем, не добавлено ли уже
         $stmt = $conn->prepare("SELECT id FROM favorites WHERE user_id = ? AND song_id = ?");
         $stmt->bind_param("ii", $user_id, $song_id);
         $stmt->execute();
@@ -26,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
         
-        // Добавляем в избранное
         $stmt = $conn->prepare("INSERT INTO favorites (user_id, song_id) VALUES (?, ?)");
         $stmt->bind_param("ii", $user_id, $song_id);
         
@@ -37,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
     } elseif ($action === 'remove') {
-        // Удаляем из избранного
         $stmt = $conn->prepare("DELETE FROM favorites WHERE user_id = ? AND song_id = ?");
         $stmt->bind_param("ii", $user_id, $song_id);
         
@@ -48,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         
     } elseif ($action === 'check') {
-        // Проверяем статус
         $stmt = $conn->prepare("SELECT id FROM favorites WHERE user_id = ? AND song_id = ?");
         $stmt->bind_param("ii", $user_id, $song_id);
         $stmt->execute();
@@ -62,7 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => false, 'message' => 'Invalid action']);
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Получаем все избранные песни
     if (isset($_GET['action']) && $_GET['action'] === 'get_all') {
         $stmt = $conn->prepare("
             SELECT s.* FROM songs s
