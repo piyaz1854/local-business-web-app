@@ -87,13 +87,9 @@
   <a href="booking.php" class="btn primary center">Reserve Now</a>
 </section>
 
-
-<section class="songs-preview">
-  <h2>Popular Songs</h2>
-  <div id="songs"></div>
-</section>
-
-<script type="module" src="../assets/js/events.js?v=2"></script>
-
+<script type="module" src="../assets/js/main.js"></script>
+<script type="module" src="../assets/js/data.js"></script>
+<script type="module" src="../assets/js/ui.js"></script>
+<script type="module" src="../assets/js/events.js"></script>
 
 <?php include "../includes/footer.php"; ?>

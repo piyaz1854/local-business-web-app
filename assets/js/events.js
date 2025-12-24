@@ -1,58 +1,312 @@
-document.addEventListener("DOMContentLoaded", () => {
+import { songs, favorites, bookings, reviews, admin } from "./data.js";
+import { notifications, ui, styles } from "./ui.js";
 
-  console.log("events.js loaded");
+export const handlers = {
+  toggleFavorite: async (songId, button = null) => {
+    const isActive = button
+      ? button.classList.contains("active")
+      : document.getElementById("favoriteBtn")?.classList.contains("active") ||
+        false;
 
-  // ===== ROOMS PAGE =====
-  const typeFilter = document.getElementById("typeFilter");
-  const capacityFilter = document.getElementById("capacityFilter");
+    const action = isActive ? "remove" : "add";
 
-  if (typeFilter && capacityFilter) {
-    renderRooms();
+    try {
+      const data = await favorites.toggle(songId, action);
+      if (data.success) {
+        if (button) {
+          button.classList.toggle("active");
+          button.innerHTML = button.classList.contains("active") ? "❤️" : "🤍";
+          button.title = button.classList.contains("active")
+            ? "Remove from favorites"
+            : "Add to favorites";
+        }
 
-    const applyRoomFilter = () => {
-      filterRoomsUI(
-        typeFilter.value,
-        parseInt(capacityFilter.value, 10)
-      );
-    };
+        const karaokeBtn = document.getElementById("favoriteBtn");
+        if (karaokeBtn) {
+          karaokeBtn.classList.toggle("active");
+          karaokeBtn.innerHTML = karaokeBtn.classList.contains("active")
+            ? "❤️ Remove from Favorites"
+            : "🤍 Add to Favorites";
+          karaokeBtn.title = karaokeBtn.classList.contains("active")
+            ? "Remove from favorites"
+            : "Add to favorites";
+        }
 
-    typeFilter.addEventListener("change", applyRoomFilter);
-    capacityFilter.addEventListener("change", applyRoomFilter);
-  }
+        notifications.show(
+          data.message ||
+            (isActive ? "Removed from favorites" : "Added to favorites"),
+          "success"
+        );
 
-  // ===== TABLE PAGE =====
-  if (document.getElementById("zonesGrid")) {
-    renderZones();
-  }
-
-  // ===== ZONE SELECT (delegation) =====
-  document.addEventListener("click", e => {
-    const btn = e.target.closest(".select-zone");
-    if (!btn) return;
-
-    const card = btn.closest(".room-card");
-    const zone = card.dataset.zone;
-    const container = card.querySelector(".tables-inside");
-
-    if (container.innerHTML.trim()) {
-      clearAllTables();
-      return;
+        return data;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      notifications.show("Error saving favorite", "error");
     }
+  },
 
-    clearAllTables();
-    card.classList.add("active-zone");
-    renderTablesInside(card, zone);
-  });
+  setupSearch: (allSongs, onFilterChange) => {
+    const searchInput = document.getElementById("songSearch");
+    const suggestionsBox = document.getElementById("searchSuggestions");
 
-  // ===== TABLE SELECT =====
-  document.addEventListener("click", e => {
-    const table = e.target.closest(".table-mini");
-    if (!table) return;
+    if (!searchInput) return;
 
-    const { name, zone, capacity } = table.dataset;
+    let searchTimeout;
+    searchInput.addEventListener("input", function () {
+      clearTimeout(searchTimeout);
+      const query = this.value.trim();
 
-    window.location.href =
-      `booking_table.php?table_name=${encodeURIComponent(name)}&zone=${encodeURIComponent(zone)}&capacity=${capacity}`;
-  });
+      if (query.length === 0) {
+        if (suggestionsBox) suggestionsBox.style.display = "none";
+        onFilterChange();
+        return;
+      }
 
-});
+      searchTimeout = setTimeout(async () => {
+        try {
+          const data = await songs.search(query);
+          if (data.success && suggestionsBox) {
+            suggestionsBox.innerHTML = "";
+
+            if (data.songs.length > 0) {
+              data.songs.slice(0, 8).forEach((song) => {
+                const suggestion = document.createElement("div");
+                suggestion.className = "suggestion-item";
+                suggestion.innerHTML = `
+                  <strong>${song.title}</strong><br>
+                  <small>${song.artist} • ${song.genre}</small>
+                `;
+                suggestion.addEventListener("click", () => {
+                  searchInput.value = song.title;
+                  suggestionsBox.style.display = "none";
+                  onFilterChange();
+                });
+                suggestionsBox.appendChild(suggestion);
+              });
+              suggestionsBox.style.display = "block";
+            } else {
+              suggestionsBox.style.display = "none";
+            }
+          }
+        } catch (error) {
+          console.error("Search error:", error);
+        }
+      }, 300);
+    });
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        onFilterChange();
+        if (suggestionsBox) suggestionsBox.style.display = "none";
+      }
+    });
+
+    document.addEventListener("click", function (e) {
+      if (
+        suggestionsBox &&
+        searchInput &&
+        !searchInput.contains(e.target) &&
+        !suggestionsBox.contains(e.target)
+      ) {
+        suggestionsBox.style.display = "none";
+      }
+    });
+  },
+
+  setupFilters: (allSongs, onFilterChange) => {
+    document
+      .getElementById("genreFilter")
+      ?.addEventListener("change", onFilterChange);
+    document
+      .getElementById("languageFilter")
+      ?.addEventListener("change", onFilterChange);
+    document
+      .getElementById("sortFilter")
+      ?.addEventListener("change", onFilterChange);
+
+    document.getElementById("resetFilters")?.addEventListener("click", () => {
+      document.getElementById("genreFilter").value = "all";
+      document.getElementById("languageFilter").value = "all";
+      document.getElementById("sortFilter").value = "title_asc";
+      document.getElementById("songSearch").value = "";
+
+      const suggestionsBox = document.getElementById("searchSuggestions");
+      if (suggestionsBox) suggestionsBox.style.display = "none";
+
+      onFilterChange();
+    });
+  },
+
+  setupAnonymousToggle: () => {
+    const anon = document.getElementById("anonymous");
+    const nameField = document.getElementById("nameField");
+    const nameInput = document.getElementById("reviewName");
+
+    if (anon && nameField && nameInput) {
+      anon.addEventListener("change", () => {
+        if (anon.checked) {
+          nameInput.value = "Anonymous";
+          nameInput.removeAttribute("required");
+          nameField.style.maxHeight = "0";
+          nameField.style.opacity = "0";
+          nameField.style.pointerEvents = "none";
+        } else {
+          nameInput.value = "";
+          nameInput.setAttribute("required", "required");
+          nameField.style.maxHeight = "100px";
+          nameField.style.opacity = "1";
+          nameField.style.pointerEvents = "auto";
+        }
+      });
+    }
+  },
+};
+
+export const forms = {
+  roomBooking: (formId) => {
+    const form = document.getElementById(formId);
+    if (!form) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      try {
+        const data = await bookings.room(formData);
+        const result = document.getElementById("roomResult");
+        if (result) {
+          result.innerText = data.message;
+          if (data.success) form.reset();
+        }
+      } catch (error) {
+        console.error("Booking error:", error);
+        const result = document.getElementById("roomResult");
+        if (result) result.innerText = "Booking failed";
+      }
+    });
+  },
+
+  tableBooking: (formId) => {
+    const form = document.getElementById(formId);
+    if (!form) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      try {
+        const data = await bookings.table(formData);
+        const result = document.getElementById("tableResult");
+        if (result) {
+          result.innerText = data.message;
+          if (data.success) form.reset();
+        }
+      } catch (error) {
+        console.error("Table booking error:", error);
+        const result = document.getElementById("tableResult");
+        if (result) result.innerText = "❌ Error occurred";
+      }
+    });
+  },
+
+  reviews: (formId) => {
+    const form = document.getElementById(formId);
+    const result = document.getElementById("reviewResult");
+
+    if (!form || !result) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      try {
+        const data = await reviews.submit(formData);
+        result.innerText = data.message;
+
+        if (data.success) {
+          form.reset();
+          const nameField = document.getElementById("nameField");
+          const nameInput = document.getElementById("reviewName");
+
+          if (nameField && nameInput) {
+            nameField.style.maxHeight = "100px";
+            nameField.style.opacity = "1";
+            nameField.style.pointerEvents = "auto";
+            nameInput.setAttribute("required", "required");
+          }
+        }
+      } catch (error) {
+        console.error("Review error:", error);
+        result.innerText = "❌ Error sending review";
+      }
+    });
+  },
+};
+
+export const adminHandlers = {
+  updateDeleteHandlers: () => {
+    document.querySelectorAll('a[onclick*="confirm"]').forEach((link) => {
+      const onclick = link.getAttribute("onclick");
+      link.removeAttribute("onclick");
+
+      link.addEventListener("click", function (e) {
+        if (
+          !admin.confirmDelete("Вы уверены, что хотите удалить эту запись?")
+        ) {
+          e.preventDefault();
+        }
+      });
+    });
+  },
+
+  showStats: () => {
+    if (document.querySelector(".stats-panel")) {
+      document.querySelector(".stats-panel").remove();
+    } else {
+      const panel = document.createElement("div");
+      panel.className = "stats-panel";
+      panel.innerHTML = `
+        <h3>📊 Быстрая статистика</h3>
+        <div class="stat-item">
+          <span>Всего песен:</span>
+          <span class="stat-value" id="totalSongs">${
+            document.querySelectorAll(".songs-table tbody tr").length
+          }</span>
+        </div>
+        <div class="stat-item">
+          <span>Всего отзывов:</span>
+          <span class="stat-value" id="totalReviews">${
+            document.querySelectorAll(".review-card").length
+          }</span>
+        </div>
+        <div class="stat-item">
+          <span>Сегодня:</span>
+          <span class="stat-value" id="todayDate">${new Date().toLocaleDateString(
+            "ru-RU"
+          )}</span>
+        </div>
+        <button class="close-stats">× Закрыть</button>
+      `;
+
+      document.body.appendChild(panel);
+      panel.querySelector(".close-stats").addEventListener("click", () => {
+        panel.remove();
+      });
+    }
+  },
+};
+
+export function setupSearchButton(onFilterChange) {
+  const searchButton = document.getElementById("searchButton");
+  if (searchButton) {
+    searchButton.addEventListener("click", () => {
+      if (onFilterChange && typeof onFilterChange === "function") {
+        onFilterChange();
+      } else {
+        const event = new Event("change");
+        document.getElementById("genreFilter")?.dispatchEvent(event);
+      }
+    });
+  }
+}

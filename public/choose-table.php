@@ -7,8 +7,8 @@
   <div class="rooms-grid" id="zonesGrid"></div>
 </section>
 
-<script src="../assets/js/data.js"></script>
-<script src="../assets/js/ui.js"></script>
-<script src="../assets/js/events.js"></script>
+<script src="../assets/js/booking_data.js"></script>
+<script src="../assets/js/booking_ui.js"></script>
+<script src="../assets/js/booking_events.js"></script>
 
 <?php include "../includes/footer.php"; ?>
